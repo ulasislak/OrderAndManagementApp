@@ -4,6 +4,7 @@ using BusinnesLogic.AllDto.OrderDto;
 using BusinnesLogic.AllDto.OwnerDto;
 using BusinnesLogic.AllDto.ProductDto;
 using DataAccess.Entities;
+using OrderAndManagementApp.ViewModel;
 
 namespace OrderAndManagementApp.MappersProfile
 {
@@ -11,10 +12,10 @@ namespace OrderAndManagementApp.MappersProfile
     {
         public MappersProfile()
         {
-            CreateMap<Owner, OwnerDto>().ReverseMap();
-            CreateMap<Costumer, CostumerDto>().ReverseMap();
-            CreateMap<Order, OrderDto>().ReverseMap();
-            CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<OwnerVM, OwnerDto>().ReverseMap();
+            CreateMap<CostumerVM, CostumerDto>().ReverseMap();
+            CreateMap<OrderVM, OrderDto>().ReverseMap();
+            CreateMap<ProductVM, ProductDto>().ReverseMap();
         }
     }
 }

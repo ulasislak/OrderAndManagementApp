@@ -30,5 +30,10 @@ namespace BusinnesLogic.ConcreteServices
         {
             await _genericRepository.DeleteAsync(Id);
         }
+
+        public async Task<List<OwnerDto>> GetAllOwner()
+        {
+            return _mapper.Map<List<OwnerDto>>(await _genericRepository.GetAllAsync());
+        }
     }
 }

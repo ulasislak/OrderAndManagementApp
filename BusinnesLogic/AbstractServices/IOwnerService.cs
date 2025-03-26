@@ -13,6 +13,8 @@ namespace BusinnesLogic.AbstractServices
         Task AddUser(OwnerDto ownerDto);
 
         Task DeleteUser(string Id);
+
+        Task<List<OwnerDto>> GetAllOwner();
        
     }
 }

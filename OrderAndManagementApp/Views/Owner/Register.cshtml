@@ -1,0 +1,349 @@
+﻿@using OrderAndManagementApp.ViewModel
+@model OwnerVM
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Portal | Kayıt Ol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --dark: #1b263b;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --danger: #f72585;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 2rem;
+        }
+
+        .register-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .register-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            outline: none;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 2.7rem;
+            color: var(--primary);
+        }
+
+        .password-strength {
+            height: 5px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-top: 1rem;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .divider-text {
+            padding: 0 1rem;
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+
+        .terms-text {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .terms-text a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        .floating-decoration {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(67, 97, 238, 0.1);
+            z-index: -1;
+        }
+
+        .decoration-1 {
+            top: -50px;
+            right: -50px;
+        }
+
+        .decoration-2 {
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 2.7rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        @@media (max-width: 576px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .register-card {
+                border-radius: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-decoration decoration-1"></div>
+    <div class="floating-decoration decoration-2"></div>
+    
+    <div class="container">
+        <div class="register-card">
+            <div class="card-header">
+                <h1>Hesap Oluştur</h1>
+                <p>OrderAndManagementApp'e hoş geldiniz</p>
+            </div>
+            
+            <div class="card-body">
+                <form asp-action="Register" asp-controller="Owner" method="post" id="registerForm">
+                    <div class="form-group">
+                        <label asp-for="Mail">E-Posta Adresi</label>
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input asp-for="Mail" type="email" class="form-control" placeholder="ornek@mail.com" required>
+                        <span asp-validation-for="Mail" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label asp-for="Password">Şifre</label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input asp-for="Password" type="password" class="form-control" id="password" placeholder="Şifrenizi girin" required>
+                        <i class="far fa-eye password-toggle" id="togglePassword"></i>
+                        <div class="password-strength">
+                            <div class="strength-bar" id="strengthBar"></div>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Şifre Tekrar</label>
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Şifrenizi tekrar girin" required>
+                        <span id="confirmError" class="text-danger"></span>
+                    </div>
+                    
+                    <button type="submit" class="btn">Kayıt Ol</button>
+                    
+                    <div class="terms-text">
+                        Kayıt olarak <a href="#">Kullanım Koşulları</a> ve <a href="#">Gizlilik Politikası</a>'nı kabul etmiş olursunuz.
+                    </div>
+                    
+                    <div class="divider">
+                        <span class="divider-text">VEYA</span>
+                    </div>
+                    
+                    <a asp-action="Login" asp-controller="Owner" class="btn btn-outline">
+                        Zaten Hesabınız Var Mı? Giriş Yapın
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        // Şifre göster/gizle
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+        
+        // Şifre güç kontrolü
+        password.addEventListener('input', function() {
+            const strengthBar = document.getElementById('strengthBar');
+            const strength = checkPasswordStrength(this.value);
+            
+            strengthBar.style.width = strength.percentage + '%';
+            strengthBar.style.background = strength.color;
+        });
+        
+        // Şifre doğrulama
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const confirmError = document.getElementById('confirmError');
+            if (this.value !== password.value) {
+                confirmError.textContent = 'Şifreler eşleşmiyor';
+            } else {
+                confirmError.textContent = '';
+            }
+        });
+        
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            
+            // Uzunluk kontrolü
+            if (password.length > 5) strength++;
+            if (password.length > 7) strength++;
+            
+            // Karakter çeşitliliği
+            if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength++;
+            if (password.match(/([0-9])/)) strength++;
+            if (password.match(/([!,%,&,#,$,^,*,?,_,~])/)) strength++;
+            
+            // Güç seviyesine göre renk ve yüzde
+            if (strength <= 1) {
+                return { percentage: 25, color: 'var(--danger)' };
+            } else if (strength <= 3) {
+                return { percentage: 50, color: 'orange' };
+            } else if (strength <= 4) {
+                return { percentage: 75, color: 'var(--success)' };
+            } else {
+                return { percentage: 100, color: 'green' };
+            }
+        }
+    </script>
+</body>
+</html>
