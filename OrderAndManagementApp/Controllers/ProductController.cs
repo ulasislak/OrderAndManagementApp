@@ -25,27 +25,42 @@ namespace OrderAndManagementApp.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Create(ProductVM productVM)
-        {           
-            var productDto = _mapper.Map<ProductDto>(productVM);
-
+        {
             if (productVM.PhotoUrl != null && productVM.PhotoUrl.Length > 0)
-            {               
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", productVM.PhotoUrl.FileName);
-               
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await productVM.PhotoUrl.CopyToAsync(stream);
-                }
-               
-                productDto.PhotoUrlPath = "/images/" + productVM.PhotoUrl.FileName;
-            }            
-            var addedProduct = _productService.AddProduct(productDto);
-           
-            if (addedProduct != null)
             {
-                return RedirectToAction("AllProduct", "Product");
-            }            
-            return View();
+                // Wwwroot klasörü altında images klasörü oluştur
+                string uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+
+                // Klasörü oluştur (eğer yoksa)
+                if (!Directory.Exists(uploadFolder))
+                {
+                    Directory.CreateDirectory(uploadFolder);
+                }
+
+                // Benzersiz dosya adı oluştur
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + productVM.PhotoUrl.FileName;
+                string filePath = Path.Combine(uploadFolder, uniqueFileName);
+
+                // Dosyayı kaydet
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await productVM.PhotoUrl.CopyToAsync(fileStream);
+                }
+
+                // DTO'ya dosya yolunu kaydet
+                var productDto = _mapper.Map<ProductDto>(productVM);
+                productDto.PhotoUrlPath = "/images/" + uniqueFileName;
+
+               
+                var addedProduct = _productService.AddProduct(productDto);
+
+                if (addedProduct != null)
+                {
+                    return RedirectToAction("AllProduct", "Product");
+                }
+            }
+
+            return View(productVM);
         }
 
 

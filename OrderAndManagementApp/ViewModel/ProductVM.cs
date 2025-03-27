@@ -8,7 +8,6 @@ namespace OrderAndManagementApp.ViewModel
         public string Description { get; set; }
         [NotMapped]
         public IFormFile PhotoUrl { get; set; }
-
         public string PhotoUrlPath { get; set; }
         public int Piece { get; set; }
     }
