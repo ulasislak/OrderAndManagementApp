@@ -297,7 +297,7 @@
                             <span>Products</span>
                         </a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">All Products</a>
+                            <a href="@Url.Action("AllProduct","Product")" class="dropdown-item">All Products</a>
                             <a href="@Url.Action("Create","Product")" class="dropdown-item">Add Product</a>
                             <a href="#" class="dropdown-item">Categories</a>
                             <a href="#" class="dropdown-item">Inventory</a>
@@ -358,9 +358,7 @@
             </header>
 
             <!-- Main Content Area -->
-            <main class="main-content">
-                <h1>Welcome to OrderManager</h1>
-                <p>Select an option from the menu to get started.</p>
+            <main class="main-content">               
                 @RenderBody()
             </main>
 

@@ -63,12 +63,14 @@ namespace OrderAndManagementApp.Controllers
             return View(productVM);
         }
 
-
         [HttpGet]
-        public IActionResult AllProduct()
+        public async Task<IActionResult> AllProduct()
         {
-            return View();
+            var allProduct = _mapper.Map<List<ProductVM>>(await _productService.GetAllProduct());            
+            return View(allProduct);
         }
+
+        
 
     }
 }
