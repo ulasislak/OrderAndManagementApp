@@ -1,11 +1,9 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - OrderAndManagementApp</title>
+    <title>OrderAndManagementApp</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -21,76 +19,23 @@
             --transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f5f7fb;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
             min-height: 100vh;
-        }
-
-        /* Header Styling */
-        .dashboard-header {
-            height: var(--header-height);
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-            position: fixed;
-            top: 0;
-            left: var(--sidebar-width);
-            right: 0;
-            z-index: 100;
-        }
-
-        .header-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .notification-bell {
             position: relative;
-            color: #6c757d;
-            font-size: 1.2rem;
-            cursor: pointer;
+            overflow-x: hidden;
         }
 
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--primary);
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.6rem;
+        .wrapper {
             display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            cursor: pointer;
+            min-height: 100vh;
         }
 
         /* Sidebar Styling */
@@ -99,16 +44,17 @@
             background: white;
             height: 100vh;
             position: fixed;
+            left: 0;
+            top: 0;
             box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem 0;
-            z-index: 101;
+            z-index: 1000;
+            overflow-y: auto;
         }
 
         .sidebar-brand {
             display: flex;
             align-items: center;
-            padding: 0 1.5rem 1.5rem;
-            margin-bottom: 1rem;
+            padding: 1.5rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
@@ -129,9 +75,7 @@
             }
 
         .sidebar-menu {
-            overflow-y: auto;
-            height: calc(100vh - 100px);
-            padding: 0 1rem;
+            padding: 1rem;
         }
 
         .menu-item {
@@ -168,14 +112,131 @@
             text-align: center;
         }
 
+        /* Main Content Container */
+        .content-container {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styling */
+        .dashboard-header {
+            height: var(--header-height);
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification-bell {
+            position: relative;
+            color: #6c757d;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+            .notification-bell:hover {
+                color: var(--primary);
+            }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+            .user-avatar:hover {
+                transform: scale(1.05);
+            }
+
         /* Main Content Area */
         .main-content {
-            margin-left: var(--sidebar-width);
-            margin-top: var(--header-height);
             flex: 1;
             padding: 2rem;
             min-height: calc(100vh - var(--header-height) - var(--footer-height));
         }
+
+        /* Dropdown Styling */
+        .dropdown-toggle::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item.active .dropdown-toggle::after {
+            transform: rotate(-180deg);
+        }
+
+        .dropdown-menu {
+            display: none;
+            padding-left: 3rem;
+            margin-top: 0.25rem;
+        }
+
+        .menu-item.active .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #6c757d;
+            text-decoration: none;
+            transition: var(--transition);
+            border-radius: 6px;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+            .dropdown-item:hover {
+                color: var(--primary);
+                background-color: rgba(67, 97, 238, 0.05);
+            }
 
         /* Footer Styling */
         .dashboard-footer {
@@ -186,7 +247,9 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 2rem;
-            margin-left: var(--sidebar-width);
+            position: sticky;
+            bottom: 0;
+            z-index: 900;
         }
 
         .footer-text {
@@ -212,78 +275,125 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar Doğrudan Layout İçinde -->
-    <div class="sidebar">
-        <div class="sidebar-brand">
-            <i class="fas fa-box-open brand-icon"></i>
-            <span class="brand-text">Order<span>Manager</span></span>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fas fa-box-open brand-icon"></i>
+                <span class="brand-text">Order<span>Manager</span></span>
+            </div>
+
+            <div class="sidebar-menu">
+                <ul>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link active">
+                            <i class="fas fa-home menu-icon"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link dropdown-toggle">
+                            <i class="fas fa-box menu-icon"></i>
+                            <span>Products</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">All Products</a>
+                            <a href="@Url.Action("Create","Product")" class="dropdown-item">Add Product</a>
+                            <a href="#" class="dropdown-item">Categories</a>
+                            <a href="#" class="dropdown-item">Inventory</a>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link dropdown-toggle">
+                            <i class="fas fa-shopping-cart menu-icon"></i>
+                            <span>Orders</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">All Orders</a>
+                            <a href="#" class="dropdown-item">Pending</a>
+                            <a href="#" class="dropdown-item">Completed</a>
+                            <a href="#" class="dropdown-item">Cancelled</a>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link dropdown-toggle">
+                            <i class="fas fa-users menu-icon"></i>
+                            <span>Customers</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">All Customers</a>
+                            <a href="#" class="dropdown-item">Add Customer</a>
+                            <a href="#" class="dropdown-item">Groups</a>
+                            <a href="#" class="dropdown-item">Analytics</a>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link dropdown-toggle">
+                            <i class="fas fa-cog menu-icon"></i>
+                            <span>Settings</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">General</a>
+                            <a href="#" class="dropdown-item">Security</a>
+                            <a href="#" class="dropdown-item">Notifications</a>
+                            <a href="#" class="dropdown-item">Backup</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div class="sidebar-menu">
-            <ul>
-                <li class="menu-item">
-                    <a href="@Url.Action("Dashboard","Owner")" class="menu-link active">
-                        <i class="fas fa-home menu-icon"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="fas fa-box menu-icon"></i>
-                        <span>Products</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="fas fa-shopping-cart menu-icon"></i>
-                        <span>Orders</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="fas fa-users menu-icon"></i>
-                        <span>Customers</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="fas fa-cog menu-icon"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-            </ul>
+        <!-- Content Container -->
+        <div class="content-container">
+            <!-- Dashboard Header -->
+            <header class="dashboard-header">
+                <div class="header-title">Dashboard</div>
+                <div class="user-menu">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-avatar">AD</div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <h1>Welcome to OrderManager</h1>
+                <p>Select an option from the menu to get started.</p>
+                @RenderBody()
+            </main>
+
+            <!-- Dashboard Footer -->
+            <footer class="dashboard-footer">
+                <div class="footer-text">
+                    &copy; 2024 - OrderAndManagementApp
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Help Center</a>
+                </div>
+            </footer>
         </div>
     </div>
 
-    <!-- Dashboard Header -->
-    <header class="dashboard-header">
-        <div class="header-title">@ViewData["Title"]</div>
-        <div class="user-menu">
-            <div class="notification-bell">
-                <i class="fas fa-bell"></i>
-                <span class="notification-badge">3</span>
-            </div>
-            <div class="user-avatar">AD</div>
-        </div>
-    </header>
+    <script>
+        // Add click event listeners to dropdown toggles
+        document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const menuItem = toggle.closest('.menu-item');
+                menuItem.classList.toggle('active');
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-        @RenderBody() <!-- BU MUTLAKA OLMALI -->
-    </main>
-
-    <!-- Dashboard Footer -->
-    <footer class="dashboard-footer">
-        <div class="footer-text">
-            &copy; @DateTime.Now.Year - OrderAndManagementApp
-        </div>
-        <div class="footer-links">
-            <a href="#" class="footer-link">Privacy Policy</a>
-            <a href="#" class="footer-link">Terms of Service</a>
-            <a href="#" class="footer-link">Help Center</a>
-        </div>
-    </footer>
-
-    @RenderSection("Scripts", required: false)
+                // Close other dropdowns
+                document.querySelectorAll('.menu-item.active').forEach(item => {
+                    if (item !== menuItem) {
+                        item.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
