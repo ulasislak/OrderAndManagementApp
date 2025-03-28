@@ -12,6 +12,7 @@ namespace BusinnesLogic.AbstractServices
         Task AddProduct(ProductDto productDto);
         Task DeleteProduct(string Id);
         Task UpdateProduct(ProductDto productDto,string Id);
+        Task<ProductDto> GetProductById(string Id);
         Task<List<ProductDto>> GetAllProduct();
         
     }

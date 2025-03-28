@@ -70,7 +70,11 @@ namespace OrderAndManagementApp.Controllers
             return View(allProduct);
         }
 
-        
-
+        [HttpPost]
+        public async Task<IActionResult> Delete(string Id)
+        {          
+            await _productService.DeleteProduct(Id);
+            return RedirectToAction("AllProduct", "Product");
+        }
     }
 }

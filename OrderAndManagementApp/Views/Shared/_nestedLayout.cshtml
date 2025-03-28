@@ -49,6 +49,7 @@
             box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
             z-index: 1000;
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .sidebar-brand {
@@ -56,6 +57,12 @@
             align-items: center;
             padding: 1.5rem;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1001;
         }
 
         .brand-icon {
@@ -76,11 +83,13 @@
 
         .sidebar-menu {
             padding: 1rem;
+            position: relative;
         }
 
         .menu-item {
             list-style: none;
             margin-bottom: 0.25rem;
+            position: relative;
         }
 
         .menu-link {
@@ -92,6 +101,8 @@
             text-decoration: none;
             transition: var(--transition);
             font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
 
             .menu-link:hover {
