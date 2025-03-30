@@ -2,6 +2,7 @@
 using BusinnesLogic.AbstractServices;
 using BusinnesLogic.AllDto.ProductDto;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OrderAndManagementApp.ViewModel;
 
 namespace OrderAndManagementApp.Controllers
@@ -75,6 +76,22 @@ namespace OrderAndManagementApp.Controllers
         {          
             await _productService.DeleteProduct(Id);
             return RedirectToAction("AllProduct", "Product");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(string Id)
+        {
+            var GetId = _productService.GetProductById(Id);
+            if (GetId != null)
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(ProductVM productVM)
+        {           
+            return View();            
         }
     }
 }
