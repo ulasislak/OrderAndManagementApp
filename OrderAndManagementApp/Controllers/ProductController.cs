@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinnesLogic.AbstractServices;
 using BusinnesLogic.AllDto.ProductDto;
+using DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OrderAndManagementApp.ViewModel;
@@ -81,11 +82,13 @@ namespace OrderAndManagementApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string Id)
         {
-            var GetId = _productService.GetProductById(Id);
-            if (GetId != null)
+            var product =_productService.GetProductById(Id);
+            if (product == null)
             {
-                return View();
+                return RedirectToAction("AllProduct", "Product");
             }
+            var productVM = _mapper.Map<ProductVM>(product); 
+            return View(productVM);
         }
 
         [HttpPost]
