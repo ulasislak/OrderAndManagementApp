@@ -82,7 +82,7 @@ namespace OrderAndManagementApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string Id)
         {
-            var product =_productService.GetProductById(Id);
+            var product =await _productService.GetProductById(Id.ToString());
             if (product == null)
             {
                 return RedirectToAction("AllProduct", "Product");
@@ -92,9 +92,10 @@ namespace OrderAndManagementApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(ProductVM productVM)
-        {           
-            return View();            
+        public async Task<IActionResult> Update(ProductVM productVM,string Id)
+        {
+            await _productService.UpdateProduct(_mapper.Map<ProductDto>(productVM), Id);
+            return RedirectToAction("AllProduct","Product");            
         }
     }
 }

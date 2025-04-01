@@ -141,10 +141,19 @@
                     <input asp-for="Piece" type="number" class="form-control" placeholder="Enter quantity" required>
                 </div>
 
+                @if (!string.IsNullOrEmpty(Model.PhotoUrlPath))
+                {
+                    <img src="@Model.PhotoUrlPath" class="img-thumbnail" width="200" />
+                }
+
+                <!-- Dosya yükleme alanı -->
                 <div class="form-group">
-                    <label asp-for="PhotoUrlPath">Upload Photo</label>
-                    <input asp-for="PhotoUrlPath" type="file" class="form-control" />
-                    <span class="text-muted">Only image files are accepted (jpg, png, jpeg).</span>
+                    <label asp-for="PhotoUrl"></label>
+                    <input type="file" asp-for="PhotoUrl" class="form-control" />
+                    <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+
+                    <!-- Mevcut fotoğraf yolunu sakla -->
+                    <input type="hidden" asp-for="PhotoUrlPath" />
                 </div>
 
                 <button type="submit" class="btn">Update Product</button>

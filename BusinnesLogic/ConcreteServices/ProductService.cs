@@ -38,8 +38,8 @@ namespace BusinnesLogic.ConcreteServices
 
         public async Task<ProductDto> GetProductById(string Id)
         {
-            await _genericRepository.GetByIdAsync(Id);
-            return null;
+            var product = await _genericRepository.GetByIdAsync(Id); 
+            return _mapper.Map<ProductDto>(product);
         }
 
         public async Task UpdateProduct(ProductDto productDto, string Id)
