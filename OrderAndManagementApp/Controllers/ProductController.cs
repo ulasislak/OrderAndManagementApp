@@ -92,10 +92,22 @@ namespace OrderAndManagementApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(ProductVM productVM,string Id)
+        public async Task<IActionResult> Update(ProductVM productVM,string Id) // resim update işlemine tekrar bak!!!!
         {
             await _productService.UpdateProduct(_mapper.Map<ProductDto>(productVM), Id);
             return RedirectToAction("AllProduct","Product");            
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(string Id)
+        {
+            var GetId = await _productService.GetProductById(Id.ToString());
+            if (GetId==null)
+            {
+                return RedirectToAction("AllProduct");
+            }
+            var product = _mapper.Map<ProductVM>(GetId);
+            return View(product);
         }
     }
 }

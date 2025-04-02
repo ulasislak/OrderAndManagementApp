@@ -76,7 +76,7 @@
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div class="dropdown-menu" id="dropdown-@product.Id">
-                                        <a href="#" class="dropdown-item view-item">
+                                        <a asp-action="Detail" asp-controller="Product" asp-route-id="@product.Id" class="dropdown-item view-item">
                                             <i class="fas fa-eye"></i> Detaylar
                                         </a>
                                         <a asp-action="Update" asp-controller="Product" asp-route-id="@product.Id" class="dropdown-item edit-item">
