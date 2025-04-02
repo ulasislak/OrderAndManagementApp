@@ -1,0 +1,537 @@
+﻿@using OrderAndManagementApp.ViewModel
+@{
+    Layout = null;
+}
+@model List<ProductVM>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotus - Ürünlerimiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+
+        /* Header Styles */
+        .header {
+            height: 50vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?auto=format&fit=crop&q=80&w=1920') center/cover no-repeat;
+            position: relative;
+        }
+
+        .nav {
+            position: fixed;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            color: #FFFFFF;
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+            .nav-links a {
+                color: #FFFFFF;
+                text-decoration: none;
+                font-weight: 500;
+                transition: opacity 0.3s;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-size: 0.9rem;
+            }
+
+                .nav-links a:hover {
+                    opacity: 0.7;
+                }
+
+        .hero {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #FFFFFF;
+            padding: 0 20px;
+        }
+
+            .hero h1 {
+                font-size: 3rem;
+                margin-bottom: 15px;
+                letter-spacing: 2px;
+                line-height: 1.2;
+                text-transform: uppercase;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                max-width: 700px;
+                margin-bottom: 20px;
+                line-height: 1.6;
+                color: #CCCCCC;
+            }
+
+        /* Products Section */
+        .products {
+            padding: 80px 50px;
+            background: #000000;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+            .section-title::after {
+                content: '';
+                position: absolute;
+                bottom: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100px;
+                height: 2px;
+                background: #FFFFFF;
+            }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #111111;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #333333;
+            position: relative;
+        }
+
+            .product-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1);
+                border-color: #FFFFFF;
+            }
+
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .product-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s;
+            }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #FFFFFF;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #FFFFFF;
+        }
+
+        .product-description {
+            color: #CCCCCC;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .product-stock {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .product-out-of-stock {
+            color: #F44336;
+            font-weight: bold;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        /* Arama Section */
+        .search-section {
+            max-width: 600px;
+            margin: 0 auto 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #333333;
+            color: #FFFFFF;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .search-submit {
+            padding: 12px 25px;
+            background: #FFFFFF;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+            .search-submit:hover {
+                background: #000000;
+                color: #FFFFFF;
+                outline: 2px solid #FFFFFF;
+            }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .search-section {
+                flex-direction: column;
+                padding: 15px;
+            }
+        }
+        .order-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #FFFFFF;
+            color: #000000;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+        }
+
+            .order-btn:hover {
+                background: #000000;
+                color: #FFFFFF;
+                outline: 2px solid #FFFFFF;
+            }
+
+        /* Filter Section */
+        .filter-section {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .filter-title {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #CCCCCC;
+        }
+
+        .filter-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #333333;
+            color: #FFFFFF;
+            border-radius: 4px;
+        }
+
+        .filter-submit {
+            padding: 10px 25px;
+            background: #FFFFFF;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            align-self: flex-end;
+        }
+
+            .filter-submit:hover {
+                background: #000000;
+                color: #FFFFFF;
+                outline: 2px solid #FFFFFF;
+            }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.7);
+            color: #FFFFFF;
+            padding: 50px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .social-links {
+            margin: 20px 0;
+        }
+
+            .social-links a {
+                color: #FFFFFF;
+                margin: 0 15px;
+                font-size: 1.5rem;
+                transition: opacity 0.3s;
+                text-decoration: none;
+            }
+
+                .social-links a:hover {
+                    opacity: 0.6;
+                }
+
+        .login-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 1px solid #FFFFFF;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+            .login-link:hover {
+                background: #FFFFFF;
+                color: #000000;
+            }
+
+        /* Responsive Design */
+        @@media (max-width: 768px) {
+            .nav {
+                padding: 20px;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                margin-top: 20px;
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .products {
+                padding: 50px 20px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="home">
+        <nav class="nav">
+            <div class="logo">LOTUS</div>
+            <div class="nav-links">
+                <a href="@Url.Action("Index","Home")">Ana Sayfa</a>
+                <a href="@Url.Action("Index","Home")#services">Hizmetler</a>
+                <a href="@Url.Action("Index","Home")#projects">Projeler</a>
+                <a href="@Url.Action("Index","Home")#contact">İletişim</a>
+                <a href="@Url.Action("Products","Home")">Ürünler</a>
+            </div>
+        </nav>
+        <div class="hero">
+            <h1>Ürün Kataloğu</h1>
+            <p>Yüksek kaliteli endüstriyel metal ürünlerimizle ihtiyaçlarınıza mükemmel çözümler sunuyoruz.</p>
+        </div>
+    </header>
+
+    <section class="products">
+        <h2 class="section-title">Ürünlerimiz</h2>
+
+        <div class="search-section">
+            <input type="text" id="search" name="search" class="search-input" placeholder="Ürün adı veya açıklama ara...">
+            <button type="submit" class="search-submit">Ara</button>
+        </div>
+
+
+        <div class="products-grid">
+            @foreach (var product in Model)
+            {
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="@product.PhotoUrlPath" alt="@product.ProductName">
+                        <div class="product-badge">
+                            <span class="@(product.Piece > 0 ? "product-stock" : "product-out-of-stock")">
+                                @(product.Piece > 0 ? "Stokta Var" : "Stokta Yok")
+                            </span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">@product.ProductName</h3>
+                        <p class="product-description">@product.Description</p>
+                       
+                        @if (product.Piece > 0)
+                        {
+                            <a asp-action="GetOrder" asp-controller="Order"
+                               asp-route-id="@product.Id"
+                               class="order-btn">
+                                Sipariş Ver
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="order-btn disabled">Stokta Yok</span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <h3>LOTUS</h3>
+            <p>Kaliteli metal işçiliğinde 40 yıllık tecrübe</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">📱</a>
+                <a href="#" aria-label="Twitter">📞</a>
+                <a href="#" aria-label="Instagram">📧</a>
+            </div>
+            <a asp-action="Login" asp-controller="Owner" class="login-link">Giriş Yap</a>
+            <p>&copy; @DateTime.Now.Year Lotus. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+             
+         // Arama butonu işlevselliği
+        document.querySelector('.search-submit').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+
+            productCards.forEach(card => {
+                const productName = card.querySelector('.product-name').textContent.toLowerCase();
+                const productDesc = card.querySelector('.product-description').textContent.toLowerCase();
+
+                if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Enter tuşu ile arama yapma
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.search-submit').click();
+            }
+        });
+    </script>
+</body>
+</html>
