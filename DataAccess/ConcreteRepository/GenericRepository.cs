@@ -40,7 +40,7 @@ namespace DataAccess.ConcreteRepository
 
         public async Task<T> GetByIdAsync(string id)
         {
-            return await _entities.FirstOrDefaultAsync(x => x.Id == id);
+            return await _entities.FirstOrDefaultAsync(x => x.Id.ToString() == id.ToString());
         }
 
         public async Task UpdateAsync(T entity, string id)

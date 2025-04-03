@@ -13,6 +13,7 @@ namespace BusinnesLogic.AbstractServices
         Task AddOrder(OrderDto orderDto);
         Task DeleteOrder(string Id);
         Task UpdateOrder(OrderDto orderDto, string Id);
+        Task<OrderDto> GetOrderById(string Id);
         Task<List<OrderDto>> GetAllOrder();
     }
 }

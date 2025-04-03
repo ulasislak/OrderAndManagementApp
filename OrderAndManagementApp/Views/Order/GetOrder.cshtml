@@ -1,0 +1,239 @@
+﻿@using OrderAndManagementApp.ViewModel
+@model CostumerVM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotus - Sipariş Oluştur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .checkout-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+
+            .checkout-title::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: #FFFFFF;
+            }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        .customer-info, .order-summary {
+            background: #111111;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #333333;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #FFFFFF;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #CCCCCC;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #333333;
+            color: #FFFFFF;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+            .form-input:focus {
+                outline: 1px solid #FFFFFF;
+            }
+
+        .order-items {
+            margin-top: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #333333;
+        }
+
+            .order-item:last-child {
+                border-bottom: none;
+            }
+
+        .order-item-name {
+            color: #FFFFFF;
+        }
+
+        .order-item-date {
+            color: #CCCCCC;
+            font-size: 0.9rem;
+        }
+
+        .total-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #333333;
+            font-size: 1.2rem;
+            text-align: right;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #FFFFFF;
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+            .submit-btn:hover {
+                background: #000000;
+                color: #FFFFFF;
+                outline: 2px solid #FFFFFF;
+            }
+
+        .empty-orders {
+            color: #CCCCCC;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @@media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="checkout-header">
+            <h1 class="checkout-title">Sipariş Oluştur</h1>
+            <p>Lütfen sipariş bilgilerinizi giriniz</p>
+        </div>
+
+        <div class="checkout-grid">
+            <!-- Müşteri Bilgileri Formu -->
+            <div class="customer-info">
+                <h2 class="section-title">Müşteri Bilgileri</h2>
+                <form asp-action="CreateOrder" asp-controller="Order" method="post">
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Name">Adınız</label>
+                        <input class="form-input" asp-for="Name" placeholder="Adınızı giriniz">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" asp-for="LastName">Soyadınız</label>
+                        <input class="form-input" asp-for="LastName" placeholder="Soyadınızı giriniz">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Address">Adres</label>
+                        <textarea class="form-input" asp-for="Address" rows="4" placeholder="Tam adresinizi giriniz"></textarea>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Siparişi Tamamla</button>
+                </form>
+            </div>
+
+            <!-- Sipariş Özeti -->
+            <div class="order-summary">
+                <h2 class="section-title">Sipariş Özeti</h2>
+
+                @if (Model.Orders != null && Model.Orders.Any())
+                {
+                    <div class="order-items">
+                        @foreach (var order in Model.Orders)
+                        {
+                            <div class="order-item">
+                                <div>
+                                    <div class="order-item-name">@order.ProductName</div>
+                                    <div class="order-item-date">@order.OrderDate.ToString("dd.MM.yyyy HH:mm")</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="total-section">
+                        Toplam @Model.Orders.Count() ürün
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-orders">
+                        Henüz siparişiniz bulunmamaktadır
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Client-side validation için -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

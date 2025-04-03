@@ -477,11 +477,7 @@
                        
                         @if (product.Piece > 0)
                         {
-                            <a asp-action="GetOrder" asp-controller="Order"
-                               asp-route-id="@product.Id"
-                               class="order-btn">
-                                Sipariş Ver
-                            </a>
+                            <a asp-action="GetOrder" asp-controller="Order" asp-route-id="@product.Id" class="order-btn"> Sipariş Ver </a>
                         }
                         else
                         {
@@ -506,7 +502,6 @@
             <p>&copy; @DateTime.Now.Year Lotus. Tüm hakları saklıdır.</p>
         </div>
     </footer>
-
     <script>
              
          // Arama butonu işlevselliği
