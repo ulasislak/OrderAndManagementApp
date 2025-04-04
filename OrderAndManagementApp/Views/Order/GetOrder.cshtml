@@ -1,5 +1,5 @@
 ﻿@using OrderAndManagementApp.ViewModel
-@model CostumerVM
+@model OrderVM 
 @{
     Layout = null;
 }
@@ -178,21 +178,21 @@
                 <h2 class="section-title">Müşteri Bilgileri</h2>
                 <form asp-action="CreateOrder" asp-controller="Order" method="post">
                     <div class="form-group">
-                        <label class="form-label" asp-for="Name">Adınız</label>
-                        <input class="form-input" asp-for="Name" placeholder="Adınızı giriniz">
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <label class="form-label" asp-for="Costumer.Name">Adınız</label>
+                        <input class="form-input" asp-for="Costumer.Name" placeholder="Adınızı giriniz" />
+                        <span asp-validation-for="Costumer.Name" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" asp-for="LastName">Soyadınız</label>
-                        <input class="form-input" asp-for="LastName" placeholder="Soyadınızı giriniz">
-                        <span asp-validation-for="LastName" class="text-danger"></span>
+                        <label class="form-label" asp-for="Costumer.LastName">Soyadınız</label>
+                        <input class="form-input" asp-for="Costumer.LastName" placeholder="Soyadınızı giriniz" />
+                        <span asp-validation-for="Costumer.LastName" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" asp-for="Address">Adres</label>
-                        <textarea class="form-input" asp-for="Address" rows="4" placeholder="Tam adresinizi giriniz"></textarea>
-                        <span asp-validation-for="Address" class="text-danger"></span>
+                        <label class="form-label" asp-for="Costumer.Address">Adres</label>
+                        <textarea class="form-input" asp-for="Costumer.Address" rows="4" placeholder="Tam adresinizi giriniz"></textarea>
+                        <span asp-validation-for="Costumer.Address" class="text-danger"></span>
                     </div>
 
                     <button type="submit" class="submit-btn">Siparişi Tamamla</button>
@@ -203,22 +203,22 @@
             <div class="order-summary">
                 <h2 class="section-title">Sipariş Özeti</h2>
 
-                @if (Model.Orders != null && Model.Orders.Any())
+                @if (Model.Products != null && Model.Products.Any())
                 {
                     <div class="order-items">
-                        @foreach (var order in Model.Orders)
+                        @foreach (var product in Model.Products)
                         {
                             <div class="order-item">
                                 <div>
-                                    <div class="order-item-name">@order.ProductName</div>
-                                    <div class="order-item-date">@order.OrderDate.ToString("dd.MM.yyyy HH:mm")</div>
+                                    <div class="order-item-name">@product.ProductName</div>
+                                    <div class="order-item-date">@product.Description</div>
                                 </div>
                             </div>
                         }
                     </div>
 
                     <div class="total-section">
-                        Toplam @Model.Orders.Count() ürün
+                        Toplam @Model.Products.Count() ürün
                     </div>
                 }
                 else

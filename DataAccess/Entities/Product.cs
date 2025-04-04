@@ -17,5 +17,6 @@ namespace DataAccess.Entities
 
         public string PhotoUrlPath { get; set; }
         public int Piece { get; set; }
+        public List<CustomerProduct> CustomerProducts { get; set; }
     }
 }

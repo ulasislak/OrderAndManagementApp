@@ -10,24 +10,26 @@ namespace OrderAndManagementApp.Controllers
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
         private readonly ICostumerService _costumerService;
+        private readonly IProductService _productService;
 
-        public OrderController(IOrderService orderService,IMapper mapper,ICostumerService costumerService)
+        public OrderController(IOrderService orderService,IMapper mapper,ICostumerService costumerService,IProductService productService)
         {
             _orderService = orderService;
             _mapper = mapper;
             _costumerService = costumerService;
+            _productService = productService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOrder(string id)
+        public async Task<IActionResult> GetOrder(string Id)
         {
-            var GetId = await _orderService.GetOrderById(id);
-            if (GetId==null)
+            var GetProductId = _productService.GetProductById(Id);
+            if (GetProductId==null)
             {
                 return RedirectToAction("Products","Home");
             }
-            var Order = _mapper.Map<OrderVM>(GetId);
-            return View(Order);
+            var Product = _mapper.Map<ProductVM>(GetProductId);
+            return View(Product);
         }
 
         [HttpPost]
@@ -35,7 +37,5 @@ namespace OrderAndManagementApp.Controllers
         {
             return View();
         }
-
-
     }
 }

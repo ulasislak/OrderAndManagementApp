@@ -36,9 +36,9 @@ namespace BusinnesLogic.ConcreteServices
             return _mapper.Map<List<OrderDto>>(await _genericRepository.GetAllAsync());
         }
 
-        public async Task<OrderDto> GetOrderById(string id)
+        public async Task<OrderDto> GetOrderById(string Id)
         {
-            var GetId=await _genericRepository.GetByIdAsync(id);
+            var GetId=await _genericRepository.GetByIdAsync(Id);
             return _mapper.Map<OrderDto>(GetId);
         }
 

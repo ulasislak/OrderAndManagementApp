@@ -13,5 +13,6 @@ namespace BusinnesLogic.AllDto.CostumerDto
         public string LastName { get; set; }
         public string Address { get; set; }
         public List<Order> Orders { get; set; }
+        public List<CustomerProductDto> CustomerProducts { get; set; }        
     }
 }

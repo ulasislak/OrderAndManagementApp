@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinnesLogic.AllDto;
 using BusinnesLogic.AllDto.CostumerDto;
 using BusinnesLogic.AllDto.OrderDto;
 using BusinnesLogic.AllDto.OwnerDto;
@@ -19,7 +20,9 @@ namespace BusinnesLogic.MappingProfiles
             CreateMap<Owner, OwnerDto>().ReverseMap();
             CreateMap<Costumer,CostumerDto>().ReverseMap();
             CreateMap<Order, OrderDto>().ReverseMap();
-            CreateMap<Product,ProductDto >().ReverseMap(); 
+            CreateMap<Product,ProductDto >().ReverseMap();
+            CreateMap<CustomerProductDto, CustomerProduct>()
+           .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId)).ReverseMap();           
         }
     }
 }

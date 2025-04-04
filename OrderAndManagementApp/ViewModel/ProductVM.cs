@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using BusinnesLogic.AllDto;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderAndManagementApp.ViewModel
 {
@@ -10,5 +11,6 @@ namespace OrderAndManagementApp.ViewModel
         public IFormFile PhotoUrl { get; set; }
         public string PhotoUrlPath { get; set; }
         public int Piece { get; set; }
+        public List<CustomerProductVM> CustomerProducts { get; set; }
     }
 }
