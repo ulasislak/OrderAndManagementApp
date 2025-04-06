@@ -1,5 +1,5 @@
 ﻿@using OrderAndManagementApp.ViewModel
-@model OrderVM 
+@model OrderVM
 @{
     Layout = null;
 }
@@ -176,7 +176,7 @@
             <!-- Müşteri Bilgileri Formu -->
             <div class="customer-info">
                 <h2 class="section-title">Müşteri Bilgileri</h2>
-                <form asp-action="CreateOrder" asp-controller="Order" method="post">
+                <form asp-action="GetOrder" asp-controller="Order" method="post">
                     <div class="form-group">
                         <label class="form-label" asp-for="Costumer.Name">Adınız</label>
                         <input class="form-input" asp-for="Costumer.Name" placeholder="Adınızı giriniz" />
@@ -210,8 +210,14 @@
                         {
                             <div class="order-item">
                                 <div>
-                                    <div class="order-item-name">@product.ProductName</div>
-                                    <div class="order-item-date">@product.Description</div>
+                                    <div class="order-item-name">
+                                        <label class="form-label">Ürün Adı</label>
+                                        <input class="form-input" value="@product.ProductName" readonly />
+                                    </div>
+                                    <div class="order-item-date">
+                                        <label class="form-label">Ürün Açıklaması</label>
+                                        <input class="form-input" value="@product.Description" readonly />
+                                    </div>
                                 </div>
                             </div>
                         }

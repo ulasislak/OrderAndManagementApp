@@ -13,13 +13,15 @@ namespace OrderAndManagementApp.MappersProfile
     {
         public MappersProfile()
         {
+
             CreateMap<OwnerVM, OwnerDto>().ReverseMap();
             CreateMap<CostumerVM, CostumerDto>().ReverseMap();
             CreateMap<OrderVM, OrderDto>().ReverseMap();
             CreateMap<ProductVM, ProductDto>().ReverseMap();
             CreateMap<CustomerProductDto, CustomerProductVM>()
 .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId)).ReverseMap();
-
+            CreateMap<CostumerVM, Costumer>();  // CostumerVM -> Costumer eşlemesi
+            CreateMap<OrderVM, OrderDto>();
         }
     }
 }

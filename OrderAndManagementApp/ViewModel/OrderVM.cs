@@ -1,4 +1,5 @@
-﻿using DataAccess.Entities;
+﻿using BusinnesLogic.AllDto.ProductDto;
+using DataAccess.Entities;
 
 namespace OrderAndManagementApp.ViewModel
 {
@@ -7,8 +8,8 @@ namespace OrderAndManagementApp.ViewModel
         public string ProductName { get; set; }
         public DateTime OrderDate { get; set; }
         public string CostumerId { get; set; }
-        public Costumer Costumer { get; set; }
-        public List<Product> Products { get; set; }
+        public CostumerVM Costumer { get; set; }
+        public List<ProductDto> Products { get; set; }
 
     }
 }

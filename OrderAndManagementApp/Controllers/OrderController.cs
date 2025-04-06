@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using BusinnesLogic.AbstractServices;
+using BusinnesLogic.AllDto.CostumerDto;
+using BusinnesLogic.AllDto.OrderDto;
+using BusinnesLogic.AllDto.ProductDto;
+using DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 using OrderAndManagementApp.ViewModel;
 
@@ -23,18 +27,25 @@ namespace OrderAndManagementApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrder(string Id)
         {
-            var GetProductId = _productService.GetProductById(Id);
-            if (GetProductId==null)
+            var getProductDto = await _productService.GetProductById(Id);  // ProductDto döndürüyor
+            if (getProductDto == null)
             {
-                return RedirectToAction("Products","Home");
+                return RedirectToAction("Products", "Home");
             }
-            var Product = _mapper.Map<ProductVM>(GetProductId);
-            return View(Product);
+
+            var order = new OrderVM
+            {
+                Products = new List<ProductDto> { getProductDto }  // ProductDto'yu listeye ekledik
+            };
+
+            return View(order);
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetOrder(CostumerVM costumerVM)
+        public async Task<IActionResult> GetOrder(OrderVM orderVM,CostumerVM costumerVM)
         {
+            await _orderService.AddOrder(_mapper.Map<OrderDto>(orderVM));
+            await _costumerService.AddCostumer(_mapper.Map<CostumerDto>(costumerVM));
             return View();
         }
     }
