@@ -42,11 +42,24 @@ namespace OrderAndManagementApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetOrder(OrderVM orderVM,CostumerVM costumerVM)
-        {
-            await _orderService.AddOrder(_mapper.Map<OrderDto>(orderVM));
-            await _costumerService.AddCostumer(_mapper.Map<CostumerDto>(costumerVM));
-            return View();
+        public async Task<IActionResult> GetOrder(OrderVM orderVM)
+        {                                  
+            // OrderDto oluştur
+            var orderDto = new OrderDto
+            {
+                OrderDate = DateTime.Now, // Sipariş tarihi
+                CostumerId = orderVM.CostumerId ?? Guid.NewGuid().ToString(), // CostumerId yoksa bir ID ata
+                Costumer = _mapper.Map<Costumer>(orderVM.Costumer),
+                Products = orderVM.Products.Select(p => new Product
+                {
+                    ProductName = p.ProductName,
+                    Description = p.Description
+                }).ToList()
+            };
+
+            await _orderService.AddOrder(orderDto);
+            await _costumerService.AddCostumer(_mapper.Map<CostumerDto>(orderVM.Costumer));
+            return RedirectToAction("OrderSuccess");
         }
     }
 }

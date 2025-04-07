@@ -1,4 +1,5 @@
-﻿using DataAccess.Entities;
+﻿using BusinnesLogic.AllDto.ProductDto;
+using DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace BusinnesLogic.AllDto.OrderDto
 {
     public class OrderDto:BaseDto
     {
-        public string ProductName { get; set; }
         public DateTime OrderDate { get; set; }
         public string CostumerId { get; set; }
         public Costumer Costumer { get; set; }
         public List<Product> Products { get; set; }
+       
     }
 }

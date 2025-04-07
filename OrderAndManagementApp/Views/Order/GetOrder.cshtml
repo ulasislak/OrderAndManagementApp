@@ -203,7 +203,7 @@
             <div class="order-summary">
                 <h2 class="section-title">Sipariş Özeti</h2>
 
-                @if (Model.Products != null && Model.Products.Any())
+                @if (Model?.Products != null && Model.Products.Any())
                 {
                     <div class="order-items">
                         @foreach (var product in Model.Products)
