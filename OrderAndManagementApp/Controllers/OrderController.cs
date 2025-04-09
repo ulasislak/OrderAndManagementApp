@@ -16,7 +16,7 @@ namespace OrderAndManagementApp.Controllers
         private readonly ICostumerService _costumerService;
         private readonly IProductService _productService;
 
-        public OrderController(IOrderService orderService,IMapper mapper,ICostumerService costumerService,IProductService productService)
+        public OrderController(IOrderService orderService, IMapper mapper, ICostumerService costumerService, IProductService productService)
         {
             _orderService = orderService;
             _mapper = mapper;
@@ -43,23 +43,41 @@ namespace OrderAndManagementApp.Controllers
 
         [HttpPost]
         public async Task<IActionResult> GetOrder(OrderVM orderVM)
-        {                                  
-            // OrderDto oluştur
-            var orderDto = new OrderDto
+        {
+            if (!ModelState.IsValid)
             {
-                OrderDate = DateTime.Now, // Sipariş tarihi
-                CostumerId = orderVM.CostumerId ?? Guid.NewGuid().ToString(), // CostumerId yoksa bir ID ata
-                Costumer = _mapper.Map<Costumer>(orderVM.Costumer),
-                Products = orderVM.Products.Select(p => new Product
-                {
-                    ProductName = p.ProductName,
-                    Description = p.Description
-                }).ToList()
-            };
+                return View(orderVM);
+            }
 
-            await _orderService.AddOrder(orderDto);
-            await _costumerService.AddCostumer(_mapper.Map<CostumerDto>(orderVM.Costumer));
-            return RedirectToAction("OrderSuccess");
+            // Customer information validation
+            if (string.IsNullOrEmpty(orderVM.Costumer.Name) ||
+                string.IsNullOrEmpty(orderVM.Costumer.LastName) ||
+                string.IsNullOrEmpty(orderVM.Costumer.Address))
+            {
+                ModelState.AddModelError("", "Lütfen tüm müşteri bilgilerini doldurunuz.");
+                return View(orderVM);
+            }
+
+            // Products validation
+            if (orderVM.Products == null || !orderVM.Products.Any())
+            {
+                ModelState.AddModelError("", "Sepetinizde ürün bulunmamaktadır.");
+                return View(orderVM);
+            }
+
+            // Create an order in the database
+             await _orderService.AddOrder(_mapper.Map<OrderDto>(orderVM));
+
+            // Redirect to order confirmation page
+            return RedirectToAction("OrderConfirmation");
+
+
         }
+
+        public IActionResult OrderConfirmation(string orderId)
+        {
+            return View(orderId);
+        }
+
     }
 }

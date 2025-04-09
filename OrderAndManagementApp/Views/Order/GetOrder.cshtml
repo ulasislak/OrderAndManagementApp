@@ -195,6 +195,16 @@
                         <span asp-validation-for="Costumer.Address" class="text-danger"></span>
                     </div>
 
+                    <!-- Products listesini hidden input'larla ekle -->
+                    @if (Model?.Products != null && Model.Products.Any())
+                    {
+                        @for (int i = 0; i < Model.Products.Count; i++)
+                        {
+                            <input type="hidden" name="Products[@i].ProductName" value="@Model.Products[i].ProductName" />
+                            <input type="hidden" name="Products[@i].Description" value="@Model.Products[i].Description" />
+                        }
+                    }
+
                     <button type="submit" class="submit-btn">Siparişi Tamamla</button>
                 </form>
             </div>
@@ -206,17 +216,22 @@
                 @if (Model?.Products != null && Model.Products.Any())
                 {
                     <div class="order-items">
-                        @foreach (var product in Model.Products)
+                        @for (int i = 0; i < Model.Products.Count; i++)
                         {
                             <div class="order-item">
                                 <div>
                                     <div class="order-item-name">
                                         <label class="form-label">Ürün Adı</label>
-                                        <input class="form-input" value="@product.ProductName" readonly />
+                                        <input class="form-input" value="@Model.Products[i].ProductName" readonly />
                                     </div>
                                     <div class="order-item-date">
                                         <label class="form-label">Ürün Açıklaması</label>
-                                        <input class="form-input" value="@product.Description" readonly />
+                                        <input class="form-input" value="@Model.Products[i].Description" readonly />
+                                    </div>
+                                    <div class="order-item-date">
+                                        <label class="form-label">Fotoğraf Yolu</label>
+                                        <input class="form-input" value="@Model.Products[i].PhotoUrlPath" readonly />
+                                        <input type="hidden" name="Products[@i].PhotoUrlPath" value="@Model.Products[i].PhotoUrlPath" />
                                     </div>
                                 </div>
                             </div>
