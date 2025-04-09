@@ -49,7 +49,7 @@ namespace OrderAndManagementApp.Controllers
                 return View(orderVM);
             }
 
-            // Customer information validation
+            // Customer information validation2131
             if (string.IsNullOrEmpty(orderVM.Costumer.Name) ||
                 string.IsNullOrEmpty(orderVM.Costumer.LastName) ||
                 string.IsNullOrEmpty(orderVM.Costumer.Address))
